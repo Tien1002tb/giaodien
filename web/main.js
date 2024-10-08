@@ -96,8 +96,8 @@ const myChartKhu2 = new Chart(document.getElementById("environmentKhu2"), {
     },
   },
 });
-
-function addData(value, chart, datasetIndex) {
+// cap nhat do am khu 1
+function addDoam1(value, chart, datasetIndex) {
   labels.push(new Date().toLocaleTimeString()); // Thêm thời gian hiện tại làm nhãn
   dataValues.push(value);
 
@@ -113,8 +113,8 @@ function addData(value, chart, datasetIndex) {
   chart.data.datasets[datasetIndex].data = dataValues; // Cập nhật dữ liệu
   chart.update();
 }
-
-function addDataTemperature(value, chart) {
+// cap nhat nhiet do khu 1
+function addDataTemperature1(value, chart) {
   dataValues_2.push(value); // Thêm dữ liệu nhiệt độ
 
   // Giới hạn số lượng dữ liệu hiển thị trên biểu đồ
@@ -128,23 +128,37 @@ function addDataTemperature(value, chart) {
   chart.update();
 }
 
-function addData(value, chart, datasetIndex) {
+//cap nhat do am khu 2
+function addDoam2(value, chart, datasetIndex) {
   labels_2.push(new Date().toLocaleTimeString()); // Thêm thời gian hiện tại làm nhãn
-  dataValues_4.push(value);
+  dataValues_3.push(value);
 
   // Giới hạn số lượng dữ liệu hiển thị trên biểu đồ
   const maxDataPoints = 30;
   if (labels_2.length > maxDataPoints) {
     labels_2.shift();
-    dataValues_4.shift();
+    dataValues_3.shift();
   }
 
   // Cập nhật dữ liệu cho biểu đồ
   chart.data.labels = labels_2;
-  chart.data.datasets[datasetIndex].data = dataValues_4; // Cập nhật dữ liệu
+  chart.data.datasets[datasetIndex].data = dataValues_3; // Cập nhật dữ liệu
   chart.update();
 }
+// cap nhat nhiet do khu 2
+function addDataTemperature2(value, chart) {
+  dataValues_4.push(value); // Thêm dữ liệu nhiệt độ
 
+  // Giới hạn số lượng dữ liệu hiển thị trên biểu đồ
+  const maxDataPoints = 30;
+  if (dataValues_4.length > maxDataPoints) {
+    dataValues_4.shift();
+  }
+
+  // Cập nhật dữ liệu cho biểu đồ
+  chart.data.datasets[1].data = dataValues_4; // Cập nhật dữ liệu nhiệt độ
+  chart.update();
+}
 /////////////////////////////////////////////////////////
 
 setInterval(() => {
@@ -155,10 +169,10 @@ setInterval(() => {
   const newValueTemperature2 = Math.floor(Math.random() * (80 - 75 + 1)) + 75; // Nhiệt độ khu 2
 
   // Cập nhật đồ thị khu 1
-  addData(newValueHumidity1, myChartKhu1, 0); // Cập nhật độ ẩm khu 1
-  addDataTemperature(newValueTemperature1, myChartKhu1); // Cập nhật nhiệt độ khu 1
+  addDoam1(newValueHumidity1, myChartKhu1, 0); // Cập nhật độ ẩm khu 1
+  addDataTemperature1(newValueTemperature1, myChartKhu1); // Cập nhật nhiệt độ khu 1
 
   // Cập nhật đồ thị khu 2
-  addData(newValueHumidity2, myChartKhu2, 0); // Cập nhật độ ẩm khu 2
-  addDataTemperature(newValueTemperature2, myChartKhu2); // Cập nhật nhiệt độ khu 2
+  addDoam2(newValueHumidity2, myChartKhu2, 0); // Cập nhật độ ẩm khu 2
+  addDataTemperature2(newValueTemperature2, myChartKhu2); // Cập nhật nhiệt độ khu 2
 }, 3000); // Cập nhật giá trị mỗi 1,5 giây
