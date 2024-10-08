@@ -9,8 +9,11 @@ const body_temp_2 = $("#body_temp_2");
 const Environment_temp_2 = $("#Environment_temp_2");
 const labels = [];
 const dataValues = [];
-const labels_2 = [];
 const dataValues_2 = [];
+
+const labels_2 = [];
+const dataValues_3 = [];
+const dataValues_4 = [];
 
 function fetchData() {
   fetch("http://127.0.0.1:3000/node")
@@ -67,7 +70,7 @@ const myChartKhu1 = new Chart(document.getElementById("environmentKhu1"), {
 const myChartKhu2 = new Chart(document.getElementById("environmentKhu2"), {
   type: "line",
   data: {
-    labels: labels,
+    labels: labels_2,
     datasets: [
       {
         label: "Độ ẩm Khu 2",
@@ -125,6 +128,25 @@ function addDataTemperature(value, chart) {
   chart.update();
 }
 
+function addData(value, chart, datasetIndex) {
+  labels_2.push(new Date().toLocaleTimeString()); // Thêm thời gian hiện tại làm nhãn
+  dataValues_4.push(value);
+
+  // Giới hạn số lượng dữ liệu hiển thị trên biểu đồ
+  const maxDataPoints = 30;
+  if (labels_2.length > maxDataPoints) {
+    labels_2.shift();
+    dataValues_4.shift();
+  }
+
+  // Cập nhật dữ liệu cho biểu đồ
+  chart.data.labels = labels_2;
+  chart.data.datasets[datasetIndex].data = dataValues_4; // Cập nhật dữ liệu
+  chart.update();
+}
+
+/////////////////////////////////////////////////////////
+
 setInterval(() => {
   // Giá trị mới (giả lập giá trị bạn nhận được từ dữ liệu thời gian thực)
   const newValueHumidity1 = Math.floor(Math.random() * (85 - 70 + 1)) + 70; // Độ ẩm khu 1
@@ -139,4 +161,4 @@ setInterval(() => {
   // Cập nhật đồ thị khu 2
   addData(newValueHumidity2, myChartKhu2, 0); // Cập nhật độ ẩm khu 2
   addDataTemperature(newValueTemperature2, myChartKhu2); // Cập nhật nhiệt độ khu 2
-}, 1500); // Cập nhật giá trị mỗi 1,5 giây
+}, 3000); // Cập nhật giá trị mỗi 1,5 giây
